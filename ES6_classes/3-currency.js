@@ -35,5 +35,9 @@ export default class Currency {
       throw new TypeError('Name must be a string');
     }
     this._name = newName;
+
+    displayFullCurrency() {
+        return '${this._name} (${this._code})';
+    }
   }
 }
