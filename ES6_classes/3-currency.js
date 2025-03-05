@@ -8,7 +8,7 @@ export default class Currency {
     this._code = code;
 
     if (typeof name !== 'string') {
-      throw new TypeError('name must be a number');
+      throw new TypeError('name must be a string');
     }
     this._name = name;
   }
@@ -35,9 +35,9 @@ export default class Currency {
       throw new TypeError('Name must be a string');
     }
     this._name = newName;
+  }
 
-    displayFullCurrency() {
-        return '${this._name} (${this._code})';
-    }
+  displayFullCurrency() {
+    return `${this._name} (${this._code})`;
   }
 }
