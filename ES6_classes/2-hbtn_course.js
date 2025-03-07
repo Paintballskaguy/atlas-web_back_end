@@ -16,20 +16,11 @@ export default class HolbertonCourse {
     this._students = students;
   }
 
-  // getting while the getting is good if they aren't throwing errors //
+  // getting while the getting is good if they aren't throwing errors  and setting now.//
 
   get name() {
     return this._name;
   }
-
-  get length() {
-    return this._length;
-  }
-
-  get students() {
-    return this._students;
-  }
-  // setting the new stuff based on input //
 
   set name(newName) {
     if (typeof newName !== 'string') {
@@ -38,11 +29,19 @@ export default class HolbertonCourse {
     this._name = newName;
   }
 
+  get length() {
+    return this._length;
+  }
+
   set length(newLength) {
     if (typeof newLength !== 'number') {
       throw new TypeError('Length must be a number');
     }
     this._length = newLength;
+  }
+
+  get students() {
+    return this._students;
   }
 
   set students(newStudents) {
