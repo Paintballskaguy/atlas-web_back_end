@@ -1,4 +1,4 @@
-#!/bin/env/ python3
+#!/usr/bin/env python3
 
 """
 Concate two strings together is just smashing two words together.
