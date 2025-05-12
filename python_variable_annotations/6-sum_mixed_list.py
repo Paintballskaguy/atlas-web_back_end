@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 This is the function of 'sum_mixed_list' that takes in a list of integers
 and floats and then returns their sum as a float.
