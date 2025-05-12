@@ -12,10 +12,12 @@ from typing import Iterable, Sequence, List, Tuple
 
 def element_length(lst: Iterable[Sequence]) -> List[Tuple[Sequence, int]]:
     """
-    Takes an iterable of sequences and returns a list of tuples with each element and its length.
+    Takes an iterable of sequences and returns a
+    list of tuples with each element and its length.
 
     Args:
-        lst: An iterable containing sequence-like elements (strings, lists, etc.)
+        lst: An iterable containing sequence-like
+        elements (strings, lists, etc.)
 
     Returns:
         A list of tuples where each tuple contains (element, element_length)
