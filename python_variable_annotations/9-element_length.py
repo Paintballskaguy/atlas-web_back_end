@@ -3,7 +3,8 @@
 """
 This module provides a function that returns element lengths in an iterable.
 The module contains a single function 'element_length' that takes an iterable
-of sequences and returns a list of tuples containing each element and its length.
+of sequences and returns a list of tuples containing
+each element and its length.
 """
 
 
