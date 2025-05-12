@@ -3,7 +3,7 @@ import math
 
 
 """
-uses math to find the floor of a float.
+Floor function that takes a float and returns the floor value as an int.
 """
 
 
