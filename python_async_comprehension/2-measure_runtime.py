@@ -10,7 +10,6 @@ of async_comprehension four times in parallel.
 import asyncio
 import time
 from typing import Coroutine
-from 1-async_comprehension import async_comprehension
 
 
 async def measure_runtime() -> float:
