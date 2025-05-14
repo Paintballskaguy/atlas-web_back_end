@@ -15,7 +15,7 @@ async def async_generator() -> Generator[float, None, None]:
     """
     Asynchronously generates random numbers between 0 and 10.
 
-    This coroutine loops 10 times, each time waiting asynchronously for 1 second
+    This coroutine loops 10 times each time waiting asynchronously for 1 second
     before yielding a random float between 0 and 10.
 
     Yields:
