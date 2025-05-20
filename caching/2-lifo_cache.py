@@ -8,7 +8,7 @@
 from base_caching import BaseCaching
 
 
-class LIFOCacche(BaseCaching):
+class LIFOCache(BaseCaching):
     """
     LIFOCache class that implements a Last-In-First-Out caching system.
     """
