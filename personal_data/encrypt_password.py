@@ -34,6 +34,19 @@ def hash_password(password: str) -> bytes:
     return bcrypt.hashpw(password.encode('utf-8'), salt)
 
 
+def is_valid(hashed_password: bytes, password: str) -> bool:
+    """Validates if a password matches its hashed version.
+
+    Args:
+        hashed_password: The hashed password to check against
+        password: The plain text password to verify
+
+    Returns:
+        bool: True if password matches, False otherwise
+    """
+    return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
+
+
 def get_db() -> MySQLConnection:
     """
     Creates a secure connection to the MySQL
