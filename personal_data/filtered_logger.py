@@ -80,12 +80,3 @@ def get_logger() -> logging.Logger:
 
     logger.addHandler(stream_handler)
     return logger
-
-
-def main():
-
-    logger = get_logger()
-
-
-if __name__ == "__main__":
-    main()
