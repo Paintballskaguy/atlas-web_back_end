@@ -10,7 +10,7 @@ from base_caching import BaseCaching
 
 class LRUCache(BaseCaching):
     """
-    A caching system that implements the LRU (Least Recently Used) eviction policy.
+    A caching system that implements the LRU (Least Recently Used) policy.
     """
     def __init__(self):
         """Initialize the LIFO cach and track insert order"""
