@@ -30,7 +30,7 @@ class LRUCache(BaseCaching):
                 print(f"DISCARD: {lru_key}")
 
             self.cache_data[key] = item
-            self.usage.append(key)
+            self.usage_order.append(key)
 
     def get(self, key):
         """retrieve item from the cache by key id# and update its usage"""
