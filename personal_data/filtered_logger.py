@@ -20,6 +20,19 @@ Define the PII fields from user_data.csv that should be redacted
 """
 
 
+def hash_password(password: str) -> bytes:
+    """Hashes a password using bcrypt with salt.
+
+    Args:
+        password: The plain text password to hash
+
+    Returns:
+        bytes: The salted, hashed password
+    """
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(password.encode('utf-8'), salt)
+
+
 def get_db() -> MySQLConnection:
     """
     Creates a secure connection to the MySQL
