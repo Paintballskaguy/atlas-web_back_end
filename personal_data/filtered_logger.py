@@ -4,7 +4,35 @@ Module for filtering and obfuscating sensitive data in log messages.
 """
 
 import re
-from typing import List
+from typing import List, Tuple
+import logging
+
+
+class RedactingFormatter(logging.Formatter):
+    """Redacting Formatter class for filtering sensitive log information."""
+
+    REDACTION = "***"
+    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR = ";"
+
+    def __init__(self, fields: Tuple[str]):
+        """Initialize the formatter with fields to redact."""
+        super(RedactingFormatter, self).__init__(self.FORMAT)
+        self.fields = fields
+
+    def format(self, record: logging.LogRecord) -> str:
+        """
+        Format the specified log record after redacting sensitive fields.
+
+        Args:
+            record: The log record to be formatted
+
+        Returns:
+            The formatted and redacted log message
+        """
+        record.msg = filter_datum(self.fields, self.REDACTION,
+                                 record.msg, self.SEPARATOR)
+        return super().format(record)
 
 
 def filter_datum(fields: List[str], redaction: str,
