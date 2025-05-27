@@ -38,10 +38,7 @@ class Server:
             }
         return self.__indexed_dataset
 
-    def get_hyper_index(
-            self,
-            page_size: int = 10,
-            index: int = None
+    def get_hyper_index(self, page_size: int = 10, index: int = None
     ) -> Dict[str, Optional[Union[int, List[List]]]]:
         """Get deletion-resilient hypermedia pagination info.
 
