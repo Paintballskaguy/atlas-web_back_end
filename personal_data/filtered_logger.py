@@ -11,7 +11,7 @@ import logging
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """
-    Obfuscates specified fields in a log message by
+     obscure specified fields in a log message by
     replacing them with a redaction string.
 
     Args:
@@ -34,7 +34,7 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields: Tuple[str]):
+    def __init__(self, fields: List[str]):
         """Initialize the formatter with fields to redact."""
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
