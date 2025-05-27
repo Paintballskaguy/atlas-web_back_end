@@ -22,7 +22,8 @@ PII_FIELDS: Tuple[str, ...] = (
 
 def get_db() -> MySQLConnection:
     """
-    Creates a secure connection to the MySQL database using environment variables.
+    Creates a secure connection to the MySQL
+    database using environment variables.
 
     Returns:
         A MySQLConnection object to interact with the database
@@ -39,7 +40,8 @@ def get_db() -> MySQLConnection:
     db_name = os.getenv('PERSONAL_DATA_DB_NAME')
 
     if not db_name:
-        raise ValueError("PERSONAL_DATA_DB_NAME environment variable is required")
+        raise ValueError(
+            "PERSONAL_DATA_DB_NAME environment variable is required")
 
     return mysql.connector.connect(
         user=username,
