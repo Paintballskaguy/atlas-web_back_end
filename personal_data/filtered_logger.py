@@ -4,8 +4,11 @@ Module for filtering and obfuscating sensitive data in log messages.
 """
 
 import re
+import os
 from typing import List, Tuple
 import logging
+import mysql.connector
+from mysql.connector.connection import MySQLConnection
 
 
 """
@@ -15,6 +18,35 @@ Define the PII fields from user_data.csv that should be redacted
 PII_FIELDS: Tuple[str, ...] = (
     "name", "email", "phone", "ssn", "password"
 )
+
+
+def get_db() -> MySQLConnection:
+    """
+    Creates a secure connection to the MySQL database using environment variables.
+
+    Returns:
+        A MySQLConnection object to interact with the database
+
+    Environment Variables:
+        PERSONAL_DATA_DB_USERNAME: Database username (default: 'root')
+        PERSONAL_DATA_DB_PASSWORD: Database password (default: '')
+        PERSONAL_DATA_DB_HOST: Database host (default: 'localhost')
+        PERSONAL_DATA_DB_NAME: Database name (required)
+    """
+    username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+
+    if not db_name:
+        raise ValueError("PERSONAL_DATA_DB_NAME environment variable is required")
+
+    return mysql.connector.connect(
+        user=username,
+        password=password,
+        host=host,
+        database=db_name
+    )
 
 
 def filter_datum(fields: List[str], redaction: str,
