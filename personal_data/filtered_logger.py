@@ -12,13 +12,12 @@ import mysql.connector
 from mysql.connector.connection import MySQLConnection
 
 
-"""
-Define the PII fields from user_data.csv that should be redacted
-"""
-
 PII_FIELDS: Tuple[str, ...] = (
     "name", "email", "phone", "ssn", "password"
 )
+"""
+Define the PII fields from user_data.csv that should be redacted
+"""
 
 
 def get_db() -> MySQLConnection:
