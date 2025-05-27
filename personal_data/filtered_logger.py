@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Module for filtering and obfuscating sensitive data in log messages.
+Module for filtering and obfuscating sensitive data
+in log messages.
 """
 
 import re
