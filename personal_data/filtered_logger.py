@@ -10,7 +10,8 @@ from typing import List
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """
-    Obfuscates specified fields in a log message by replacing them with a redaction string.
+    Obfuscates specified fields in a log message by
+    replacing them with a redaction string.
 
     Args:
         fields: List of field names to obfuscate
