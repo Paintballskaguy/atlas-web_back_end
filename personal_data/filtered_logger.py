@@ -114,3 +114,27 @@ def get_logger() -> logging.Logger:
 
     logger.addHandler(stream_handler)
     return logger
+
+
+def main() -> None:
+    """Retrieves all rows in users table and
+    displays each row under a filtered format.
+    """
+    logger = get_logger()
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT * FROM users;")
+        for row in cursor:
+            message = "; ".join(
+                f"{key}={value}" for key, value in row.items()
+            ) + ";"
+            logger.info(message)
+    finally:
+        cursor.close()
+        db.close()
+
+
+if __name__ == "__main__":
+    main()
