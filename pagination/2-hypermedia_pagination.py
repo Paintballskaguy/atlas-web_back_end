@@ -7,7 +7,7 @@ Module that helps with pagination calculations.
 
 import csv
 import math
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Union
 
 
 def index_range(page: int, page_size: int) -> tuple:
@@ -65,17 +65,32 @@ class Server:
 
         return dataset[start:end] if start < len(dataset) else []
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Optional[int]]:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[
+            str, Optional[Union[int, List[List]]]]:
+        """Returns hypermedia pagination information for the dataset.
 
-        data = self.get_page(page, page_size)
+        Args:
+            page: Current page number (1-indexed)
+            page_size: Number of items per page
+
+        Returns:
+            Dictionary containing:
+                - page_size: Number of items in current page
+                - page: Current page number
+                - data: List of items on current page
+                - next_page: Next page number or None
+                - prev_page: Previous page number or None
+                - total_pages: Total number of pages
+        """
+        page_data = self.get_page(page, page_size)
         total_items = len(self.dataset())
         total_pages = math.ceil(total_items / page_size) if page_size > 0 else 0
 
         return {
-            "page_size": len(data),
-            "page": page,
-            "data": data,
-            "next_page": page + 1 if page < total_pages else None,
-            "prev_page": page - 1 if page > 1 else None,
-            "total_pages": total_pages
+            'page_size': len(page_data),
+            'page': page,
+            'data': page_data,
+            'next_page': page + 1 if page < total_pages else None,
+            'prev_page': page - 1 if page > 1 else None,
+            'total_pages': total_pages
         }
