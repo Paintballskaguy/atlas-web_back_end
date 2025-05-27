@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 """
-Module for filtering sensitive data in log messages and secure database connections.
-
-This module provides:
-- PII redaction in log messages
-- Secure database connection handling
-- Custom logging formatter for sensitive data
+Module for filtering and obfuscating sensitive data in log messages.
 """
 
 import re
