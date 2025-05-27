@@ -25,7 +25,7 @@ class LRUCache(BaseCaching):
                 self.usage_order.remove(key)
             elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
                 # takes out last item added
-                lru_key = self.usage_order.pop()
+                lru_key = self.usage_order.pop(0)
                 del self.cache_data[lru_key]
                 print(f"DISCARD: {lru_key}")
 
@@ -38,5 +38,5 @@ class LRUCache(BaseCaching):
             # Update the usage order
             self.usage_order.remove(key)
             self.usage_order.append(key)
-            return self.cache_data(key)
+            return self.cache_data[key]
         return None
