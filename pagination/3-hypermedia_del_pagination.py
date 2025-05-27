@@ -39,16 +39,16 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(
-        self,
-        index: int = None,
-        page_size: int = 10
-) -> Dict[str, Optional[Union[int, List[List]]]]:
+            self,
+            index: int = None,
+            page_size: int = 10
+    ) -> Dict[str, Optional[Union[int, List[List]]]]:
         """Get deletion-resilient hypermedia pagination info.
 
         Args:
             index: Current start index (None defaults to 0)
             page_size: Number of items per page
-            
+
         Returns:
             Dictionary containing:
                 - index: current start index
@@ -56,41 +56,41 @@ class Server:
                 - page_size: current page size
                 - next_index: next index to query
         """
-    assert index is None or (isinstance(index, int) and index >= 0), (
-        "index must be non-negative integer or None"
-    )
-    assert isinstance(page_size, int) and page_size > 0, (
-        "page_size must be positive integer"
-    )
+        assert index is None or (isinstance(index, int) and index >= 0), (
+            "index must be non-negative integer or None"
+        )
+        assert isinstance(page_size, int) and page_size > 0, (
+            "page_size must be positive integer"
+        )
 
-    indexed_data = self.indexed_dataset()
-    max_index = max(indexed_data.keys()) if indexed_data else 0
+        indexed_data = self.indexed_dataset()
+        max_index = max(indexed_data.keys()) if indexed_data else 0
 
-    # Handle None index case
-    if index is None:
-        index = 0
+        # Handle None index case
+        if index is None:
+            index = 0
 
-    # Find the next available index if current is deleted
-    while index not in indexed_data and index <= max_index:
-        index += 1
+        # Find the next available index if current is deleted
+        while index not in indexed_data and index <= max_index:
+            index += 1
 
-    # Collect data for the current page
-    data = []
-    current_index = index
-    items_collected = 0
+        # Collect data for the current page
+        data = []
+        current_index = index
+        items_collected = 0
 
-    while items_collected < page_size and current_index <= max_index:
-        if current_index in indexed_data:
-            data.append(indexed_data[current_index])
-            items_collected += 1
-        current_index += 1
+        while items_collected < page_size and current_index <= max_index:
+            if current_index in indexed_data:
+                data.append(indexed_data[current_index])
+                items_collected += 1
+            current_index += 1
 
-    # Determine next index
-    next_index = current_index if current_index <= max_index else None
+        # Determine next index
+        next_index = current_index if current_index <= max_index else None
 
-    return {
-        'index': index,
-        'data': data,
-        'page_size': len(data),
-        'next_index': next_index
-    }
+        return {
+            'index': index,
+            'data': data,
+            'page_size': len(data),
+            'next_index': next_index
+        }
