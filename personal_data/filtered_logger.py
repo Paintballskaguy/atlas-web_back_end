@@ -8,6 +8,15 @@ from typing import List, Tuple
 import logging
 
 
+"""
+Define the PII fields from user_data.csv that should be redacted
+"""
+
+PII_FIELDS: Tuple[str, ...] = (
+    "name", "email", "phone", "ssn", "password"
+)
+
+
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """
@@ -52,3 +61,31 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.msg, self.SEPARATOR)
         return super().format(record)
+
+
+def get_logger() -> logging.Logger:
+    """Creates and configs a logger for handing user data
+    with PII redactions.
+
+    Returns:
+        logging.Logger: configured Logger object named 'user_data'
+    """
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    stream_handler = logging.StreamHandler()
+    formatter = RedactingFormatter(fields=list(PII_FIELDS))
+    stream_handler.setFormatter(formatter)
+
+    logger.addHandler(stream_handler)
+    return logger
+
+
+def main():
+
+    logger = get_logger()
+
+
+if __name__ == "__main__":
+    main()
