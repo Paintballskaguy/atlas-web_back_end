@@ -7,6 +7,7 @@ in log messages.
 import re
 import os
 from typing import List, Tuple
+import bcrypt
 import logging
 import mysql.connector
 from mysql.connector.connection import MySQLConnection
