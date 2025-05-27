@@ -8,6 +8,25 @@ from typing import List, Tuple
 import logging
 
 
+def filter_datum(fields: List[str], redaction: str,
+                 message: str, separator: str) -> str:
+    """
+    Obfuscates specified fields in a log message by
+    replacing them with a redaction string.
+
+    Args:
+        fields: List of field names to obfuscate
+        redaction: String to replace sensitive data with
+        message: Original log message containing fields to obfuscate
+        separator: Character that separates fields in the log message
+
+    Returns:
+        The log message with specified fields obfuscated
+    """
+    pattern = rf'({"|".join(fields)})=[^{separator}]*'
+    return re.sub(pattern, rf'\1={redaction}', message)
+
+
 class RedactingFormatter(logging.Formatter):
     """Redacting Formatter class for filtering sensitive log information."""
 
@@ -33,22 +52,3 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION,
                                  record.msg, self.SEPARATOR)
         return super().format(record)
-
-
-def filter_datum(fields: List[str], redaction: str,
-                 message: str, separator: str) -> str:
-    """
-    Obfuscates specified fields in a log message by
-    replacing them with a redaction string.
-
-    Args:
-        fields: List of field names to obfuscate
-        redaction: String to replace sensitive data with
-        message: Original log message containing fields to obfuscate
-        separator: Character that separates fields in the log message
-
-    Returns:
-        The log message with specified fields obfuscated
-    """
-    pattern = rf'({"|".join(fields)})=[^{separator}]*'
-    return re.sub(pattern, rf'\1={redaction}', message)
