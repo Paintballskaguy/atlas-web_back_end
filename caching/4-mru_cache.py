@@ -20,11 +20,10 @@ class MRUCache(BaseCaching):
     def put(self, key, item):
         """add an item to the cache following the MRU policy"""
         if key is None or item is None:
-
-            return # do nothing if key or item is None.
+            return  # do nothing if key or item is None.
 
         if key is self.cache_data:
-            # Update existing item and move to MRU position.    
+            # Update existing item and move to MRU position.
             self.usage_order.remove(key)
         elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
             # removes most recently used item
