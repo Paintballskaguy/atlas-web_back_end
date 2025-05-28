@@ -20,7 +20,13 @@ def handle_login():
         return jsonify({"error": "password missing"}), 400
 
     # Search for user by email - handle empty results properly
-    users = User.search({'email': email})
+    try:
+        users = User.search({'email': email})
+    except Exception as e:
+        # Handle any exceptions from User.search()
+        return jsonify({"error": "no user found for this email"}), 404
+
+    # Check if we found any users
     if not users or len(users) == 0:
         return jsonify({"error": "no user found for this email"}), 404
 
