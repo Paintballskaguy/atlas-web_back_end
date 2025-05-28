@@ -12,25 +12,26 @@ def handle_login():
     password = request.form.get('password')
 
     # Validate email
-    if not email or email.strip() == "":
+    if not email or not email.strip():
         return jsonify({"error": "email missing"}), 400
 
     # Validate password
-    if not password or password.strip() == "":
+    if not password or not password.strip():
         return jsonify({"error": "password missing"}), 400
 
-    # Search for user by email - handle all cases
+    # Search for user by email
     try:
         users = User.search({'email': email})
-
-        # Check if we found any users
-        if not users or len(users) == 0:
-            return jsonify({"error": "no user found for this email"}), 404
     except Exception as e:
-        # Handle specific case where search might raise exception for not found
+        # Log the error for debugging
+        print(f"Search error: {str(e)}")
+        return jsonify({"error": "database error"}), 500
+
+    # Check if we found any users
+    if not users:
         return jsonify({"error": "no user found for this email"}), 404
 
-    # Get first user (should be only one since email is unique)
+    # Get first user
     user = users[0]
 
     # Verify password - must return 401 for wrong password
