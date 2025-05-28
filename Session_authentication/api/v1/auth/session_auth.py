@@ -7,11 +7,11 @@ import uuid
 
 class SessionAuth(Auth):
     """ Session Authentication class """
+    user_id_by_session_id = {}
+
     def __init__(self):
         """ Initialize SessionAuth """
         super().__init__()
-
-    user_id_by_session_id = {}
 
     def create_session(self, user_id: str = None) -> str:
         """creates a session ID for user_id"""
@@ -19,5 +19,5 @@ class SessionAuth(Auth):
             return None
 
         session_id = str(uuid.uuid4())
-        self.user_id_by_sessions_id[session_id] = user_id
+        self.user_id_by_session_id[session_id] = user_id
         return session_id
