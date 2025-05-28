@@ -8,9 +8,9 @@ from typing import Union
 class BasicAuth(Auth):
     """ BasicAuth class that inherits from Auth
     """
-    def extract_based64_authorization_header(
+    def extract_base64_authorization_header(
         self,
-        authorized_header: str) -> Union[str, None]:
+        authorization_header: str) -> Union[str, None]:
         """Extracts the Base64 part of the Authorization header for Basic Auth
 
         Args:
