@@ -12,6 +12,7 @@ def login():
     email = request.form.get('email')
     password = request.form.get('password')
 
+    # check if email, password missing.
     if not email:
         return jsonify({"error": "email missing"}), 400
 
