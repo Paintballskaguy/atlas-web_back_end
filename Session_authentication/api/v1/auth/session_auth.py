@@ -7,6 +7,12 @@ import uuid
 
 class SessionAuth(Auth):
     """ Session Authentication class """
+    def __init__(self):
+        """ Initialize SessionAuth """
+        super().__init__()
+
+    user_id_by_session_id = {}
+
     def create_session(self, user_id: str = None) -> str:
         """creates a session ID for user_id"""
         if user_id is None or not isinstance(user_id, str):
