@@ -57,3 +57,30 @@ class User(Base):
             return "{}".format(self.last_name)
         else:
             return "{} {}".format(self.first_name, self.last_name)
+
+    @classmethod
+    def search(cls, attributes: dict) -> list:
+        """Search for users matching attributes"""
+        if not attributes or not isinstance(attributes, dict):
+            return []
+
+        try:
+            # Get all User instances
+            all_users = cls.all()
+            if not all_users:
+                return []
+
+            # Filter users based on attributes
+            matching_users = []
+            for user in all_users:
+                match = True
+                for key, value in attributes.items():
+                    if getattr(user, key, None) != value:
+                        match = False
+                        break
+                if match:
+                    matching_users.append(user)
+
+            return matching_users
+        except Exception:
+            return []
