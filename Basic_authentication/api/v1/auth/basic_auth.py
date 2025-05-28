@@ -2,7 +2,7 @@
 """ BasicAuth module
 """
 from api.v1.auth.auth import Auth
-from typing import Union
+from typing import Union, Tuple
 import base64
 
 
