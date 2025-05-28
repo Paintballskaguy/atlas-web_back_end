@@ -20,11 +20,7 @@ def handle_login():
         return jsonify({"error": "password missing"}), 400
 
     # Search for user by email - handle empty results properly
-    try:
-        users = User.search({'email': email})
-    except Exception as e:
-        # Handle any exceptions from User.search()
-        return jsonify({"error": "no user found for this email"}), 404
+    users = User.search({'email': email})
 
     # Check if we found any users
     if not users or len(users) == 0:
@@ -33,9 +29,9 @@ def handle_login():
     # Get first user (should be only one since email is unique)
     user = users[0]
 
-    # Verify password - this is the critical part that needs to return 401
+    # Verify password - this must return 401 for wrong password
     if not user.is_valid_password(password):
-        return jsonify({"error": "wrong password"}), 401
+        return jsonify({"error": "wrong password"}), 401  # Critical - must be 401
 
     # Import auth inside function to avoid circular imports
     from api.v1.app import auth
