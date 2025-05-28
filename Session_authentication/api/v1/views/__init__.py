@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" DocDocDocDocDocDoc
+""" View Initialization
 """
 from flask import Blueprint
 
@@ -10,5 +10,6 @@ from api.v1.views.users import *
 
 User.load_from_file()
 
+# Import session auth after app_views is created
 from api.v1.views.session_auth import add_session_auth_views
 add_session_auth_views(app_views)
