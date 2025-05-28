@@ -70,14 +70,20 @@ class User(Base):
             if not all_users:
                 return []
 
-            # Filter users based on attributes
+            # Filter users based on attributes with case-insensitive email matching
             matching_users = []
             for user in all_users:
                 match = True
                 for key, value in attributes.items():
-                    if getattr(user, key, None) != value:
-                        match = False
-                        break
+                    # Special handling for email (case-insensitive)
+                    if key == 'email' and hasattr(user, 'email'):
+                        if user.email is None or user.email.lower().strip() != value.lower().strip():
+                            match = False
+                            break
+                    else:
+                        if getattr(user, key, None) != value:
+                            match = False
+                            break
                 if match:
                     matching_users.append(user)
 
