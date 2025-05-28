@@ -33,7 +33,7 @@ def handle_login():
     # Get first user (should be only one since email is unique)
     user = users[0]
 
-    # Verify password
+    # Verify password - this is the critical part that needs to return 401
     if not user.is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
 
