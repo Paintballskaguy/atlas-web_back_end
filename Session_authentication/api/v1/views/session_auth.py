@@ -54,3 +54,17 @@ def handle_login():
     response.set_cookie(session_name, session_id, path='/')
 
     return response
+
+
+def handle_logout():
+    """Handles session authentication logout"""
+    # Import auth inside function to avoid circular imports
+    from api.v1.app import auth
+
+    # Destroy the session
+    destroyed = auth.destroy_session(request)
+    if not destroyed:
+        abort(404)
+
+    # Return empty JSON response
+    return jsonify({}), 200

@@ -15,3 +15,19 @@ app_views.add_url_rule(
     methods=['POST'],
     strict_slashes=False
 )
+
+from api.v1.views.session_auth import handle_login, handle_logout
+
+app_views.add_url_rule(
+    '/auth_session/login',
+    view_func=handle_login,
+    methods=['POST'],
+    strict_slashes=False
+)
+
+app_views.add_url_rule(
+    '/auth_session/logout',
+    view_func=handle_logout,
+    methods=['DELETE'],
+    strict_slashes=False
+)
