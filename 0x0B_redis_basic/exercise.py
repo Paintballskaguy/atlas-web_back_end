@@ -5,6 +5,7 @@ import uuid
 from typing import Union, Callable, Optional
 import functools
 
+
 def count_calls(method: Callable) -> Callable:
     """Decorator to count the number of times any method is called"""
     @functools.wraps(method)
@@ -14,6 +15,7 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+
 def call_history(method: Callable) -> Callable:
     """Decorator to store history of inputs and outputs"""
     @functools.wraps(method)
@@ -22,13 +24,14 @@ def call_history(method: Callable) -> Callable:
         outputs_key = f"{method.__qualname__}:outputs"
 
         # Store input arguments as a proper tuple string
-        self._redis.rpush(inputs_key, str(args[1:]))
-        
+        self._redis.rpush(inputs_key, str(args[first:]))
+
         output = method(self, *args, **kwargs)
         self._redis.rpush(outputs_key, output)
 
         return output
     return wrapper
+
 
 class Cache:
     def __init__(self):
