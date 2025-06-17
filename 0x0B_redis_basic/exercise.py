@@ -23,8 +23,9 @@ def call_history(method: Callable) -> Callable:
         inputs_key = f"{method.__qualname__}:inputs"
         outputs_key = f"{method.__qualname__}:outputs"
 
-        # Store input arguments as a proper tuple string
-        self._redis.rpush(inputs_key, str(args[first:]))
+        input_args = args[1:]
+        input_str = str(input_args)
+        self._redis.rpush(inputs_key, input_str)
 
         output = method(self, *args, **kwargs)
         self._redis.rpush(outputs_key, output)
