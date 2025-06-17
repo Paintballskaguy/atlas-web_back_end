@@ -1,7 +1,7 @@
 -- Create function SafeDiv that safely divides two numbers
 
 DELIMITER //
-CREATE FUNCTION SafeDiv (a INT, b INT),
+CREATE FUNCTION SafeDiv (a INT, b INT)
 RETURNS FLOAT
 DETERMINISTIC
 BEGIN
