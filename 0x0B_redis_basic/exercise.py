@@ -25,6 +25,7 @@ def call_history(method: Callable) -> Callable:
         outputs_key = f"{method.__qualname__}:outputs"
 
         self._redis.rpush(inputs_key, str(args[1:]))
+
         output = method(self, *args, **kwargs)
         self._redis.rpush(outputs_key, output)
 
