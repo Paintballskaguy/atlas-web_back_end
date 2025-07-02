@@ -18,6 +18,28 @@ describe('calculateNumber', () => {
     assert.strictEqual(calculateNumber(1.5, 3.7), 6);
   });
 
+    describe('Second number rounding', () => {
+    it('should round 3.4 down to 3', () => {
+      assert.strictEqual(calculateNumber(0, 3.4), 3);
+    });
+
+    it('should round 3.5 up to 4', () => {
+      assert.strictEqual(calculateNumber(0, 3.5), 4);
+    });
+
+    it('should round 3.6 up to 4', () => {
+      assert.strictEqual(calculateNumber(0, 3.6), 4);
+    });
+
+    it('should round -2.4 down to -2', () => {
+      assert.strictEqual(calculateNumber(0, -2.4), -2);
+    });
+
+    it('should round -2.5 down to -2 (towards greater value)', () => {
+      assert.strictEqual(calculateNumber(0, -2.5), -2);
+    });
+  });
+
   // edge cases
   it('should handle negative numbers correctly', () => {
     assert.strictEqual(calculateNumber(-1.5, -2.4), -3);
