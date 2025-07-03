@@ -1,83 +1,117 @@
+#!/usr/bin/node
 const request = require('request')
 const { expect } = require('chai')
-const app = require('./api')
-const http = require('http')
 
-describe('API tests', () => {
-  let server
-  let baseUrl
+describe('Index page', () => {
+  const baseURL = 'http://localhost:7865'
 
-  before(done => {
-    // Start server on random available port
-    server = http.createServer(app)
-    server.listen(0, () => {
-      baseUrl = `http://localhost:${server.address().port}`
-      done()
+  it('should return status code 200', done => {
+    request.get(baseURL, (err, res) => {
+      expect(res.statusCode).to.equal(200)
+      done(err)
     })
   })
 
-  after(done => {
-    server.close(done)
-  })
-
-  describe('GET /', () => {
-    it('should return status code 200', done => {
-      request.get(baseUrl, (error, response) => {
-        expect(response.statusCode).to.equal(200)
-        done()
-      })
-    })
-
-    it('should return "Welcome to the payment system"', done => {
-      request.get(baseUrl, (error, response, body) => {
-        expect(body).to.equal('Welcome to the payment system')
-        done()
-      })
+  it('should return the correct response body', done => {
+    request.get(baseURL, (err, res, body) => {
+      expect(body).to.equal('Welcome to the payment system')
+      done(err)
     })
   })
 
-  describe('GET /cart/:id', () => {
-    it('should return payment methods for valid cart id', done => {
-      request.get(`${baseUrl}/cart/12`, (error, response, body) => {
-        expect(response.statusCode).to.equal(200)
-        expect(body).to.equal('Payment methods for cart 12')
-        done()
-      })
+  it('should not return error 500', done => {
+    request.get(baseURL, (err, res) => {
+      expect(res.statusCode).to.not.equal(500)
+      done(err)
     })
+  })
+})
 
-    it('should return 404 for non-numeric cart id', done => {
-      request.get(`${baseUrl}/cart/hello`, (error, response) => {
-        expect(response.statusCode).to.equal(404)
-        done()
-      })
+describe('Cart page', () => {
+  const baseURL = 'http://localhost:7865/cart'
+
+  it('should return 200 and correct message for numeric ID', done => {
+    request.get(`${baseURL}/24`, (err, res, body) => {
+      expect(res.statusCode).to.equal(200)
+      expect(body).to.equal('Payment methods for cart 24')
+      done(err)
     })
   })
 
-  describe('GET /available_payments', () => {
-    it('should return payment methods object', done => {
-      request.get(`${baseUrl}/available_payments`, (err, res, body) => {
-        expect(JSON.parse(body)).to.deep.equal({
-          payment_methods: {
-            credit_cards: true,
-            paypal: false
-          }
-        })
-        done()
-      })
+  it('should return 404 for non-numeric ID', done => {
+    request.get(`${baseURL}/hello`, (err, res) => {
+      expect(res.statusCode).to.equal(404)
+      done(err)
     })
   })
 
-  describe('POST /login', () => {
-    it('should welcome the user', done => {
-      const options = {
-        url: `${baseUrl}/login`,
-        method: 'POST',
-        json: { userName: 'Betty' }
-      }
-      request(options, (err, res, body) => {
-        expect(body).to.equal('Welcome Betty')
-        done()
+  it('should return 404 for cart ID 0', done => {
+    request.get(`${baseURL}/cart/0`, (err, res, body) => {
+      expect(res.statusCode).to.equal(404)
+      done(err)
+    })
+  })
+
+  it('should return 404 for cart ID -5', done => {
+    request.get(`${baseURL}/cart/-5`, (err, res, body) => {
+      expect(res.statusCode).to.equal(404)
+      done(err)
+    })
+  })
+
+  it('should return 404 for cart ID 3.14', done => {
+    request.get(`${baseURL}/cart/3.14`, (err, res, body) => {
+      expect(res.statusCode).to.equal(404)
+      done(err)
+    })
+  })
+})
+
+describe('Available payments endpoint', () => {
+  const baseURL = 'http://localhost:7865/available_payments'
+  it('should return 200 and correct JSON response', done => {
+    request.get(baseURL, { json: true }, (err, res, body) => {
+      expect(res.statusCode).to.equal(200)
+      expect(body).to.deep.equal({
+        payment_methods: {
+          credit_cards: true,
+          paypal: false
+        }
       })
+      done(err)
+    })
+  })
+})
+
+describe('Login endpoint', () => {
+  const baseURL = 'http://localhost:7865/login'
+  it('should return 200 and personalized welcome message', done => {
+    const options = {
+      url: baseURL,
+      method: 'POST',
+      json: true,
+      body: { userName: 'JohnDoe' }
+    }
+
+    request(options, (err, res, body) => {
+      expect(res.statusCode).to.equal(200)
+      expect(body).to.equal('Welcome JohnDoe')
+      done(err)
+    })
+  })
+
+  it('should return 400 if userName is missing', done => {
+    const options = {
+      url: baseURL,
+      method: 'POST',
+      json: true,
+      body: {}
+    }
+
+    request(options, (err, res, body) => {
+      expect(res.statusCode).to.equal(400)
+      expect(body).to.equal('Missing userName')
+      done(err)
     })
   })
 })

@@ -1,23 +1,26 @@
 const express = require('express')
 const app = express()
-const PORT = process.env.PORT || 7865 // Allow dynamic port assignment
+const PORT = 7865
 
-// Middleware to parse JSON bodies
 app.use(express.json())
 
-// GET / endpoint
-app.get('/', (req, res) => {
-  res.send('Welcome to the payment system')
+// GET / route
+app.get('/', function (req, res) {
+  return res.send('Welcome to the payment system')
 })
 
-// GET /cart/:id endpoint
-app.get('/cart/:id([0-9]+)', (req, res) => {
-  res.send(`Payment methods for cart ${req.params.id}`)
+// GET /cart/:id route
+app.get('/cart/:id', function (req, res) {
+  if (isNaN(req.params.id)) {
+    return res.status(404).send('Not Found')
+  }
+  const id = parseInt(req.params.id)
+  return res.send(`Payment methods for cart ${id}`)
 })
 
-// GET /available_payments endpoint
-app.get('/available_payments', (req, res) => {
-  res.json({
+// GET /available_payments route
+app.get('/available_payments', function (req, res) {
+  return res.json({
     payment_methods: {
       credit_cards: true,
       paypal: false
@@ -25,16 +28,15 @@ app.get('/available_payments', (req, res) => {
   })
 })
 
-// POST /login endpoint
-app.post('/login', (req, res) => {
-  const { userName } = req.body
-  res.send(`Welcome ${userName}`)
+// POST /login route, which is more insecure than a Master Lock 607 that can be opened with Master Lock 607 because there's no password or encryption
+app.post('/login', function (req, res) {
+  const userName = req.body.userName
+  if (!userName) {
+    return res.status(400).send('Missing userName')
+  }
+  return res.send(`Welcome ${userName}`)
 })
 
-// 404 handler for invalid routes
-app.use((req, res) => {
-  res.status(404).send('Cannot ' + req.method + ' ' + req.url)
+app.listen(PORT, function () {
+  console.log(`API available on localhost port ${PORT}`)
 })
-
-// Export the app without listening
-module.exports = app
