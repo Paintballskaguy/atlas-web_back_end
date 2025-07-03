@@ -2,7 +2,26 @@ const express = require('express');
 
 const app = express();
 const PORT = 7865;
+const request = require('request');
+const { expect } = require('chai');
+const { app, server } = require('./api');
 
+describe('API tests', () => {
+  const baseUrl = 'http://localhost:7865';
+
+  before((done) => {
+    // Wait for server to start
+    if (server.listening) {
+      done();
+    } else {
+      server.on('listening', () => done());
+    }
+  });
+
+  after((done) => {
+    // Properly close the server
+    server.close(done);
+  });
 // Middleware to parse JSON bodies
 app.use(express.json());
 
