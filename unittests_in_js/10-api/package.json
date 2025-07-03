@@ -1,39 +1,21 @@
-const express = require('express');
-
-const app = express();
-const PORT = 7865;
-
-// Middleware to parse JSON bodies
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Welcome to the payment system');
-});
-
-app.get('/cart/:id([0-9]+)', (req, res) => {
-  res.send(`Payment methods for cart ${req.params.id}`);
-});
-
-app.get('/available_payments', (req, res) => {
-  res.json({
-    payment_methods: {
-      credit_cards: true,
-      paypal: false
-    }
-  });
-});
-
-app.post('/login', (req, res) => {
-  const { userName } = req.body;
-  res.send(`Welcome ${userName}`);
-});
-
-app.use((req, res) => {
-  res.status(404).send('Cannot ' + req.method + ' ' + req.url);
-});
-
-app.listen(PORT, () => {
-  console.log(`API available on localhost port ${PORT}`);
-});
-
-module.exports = app;
+{
+  "name": "10-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api.js",
+  "scripts": {
+    "test": "mocha api.test.js",
+    "start": "node api.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^9.1.3",
+    "request": "^2.88.2",
+    "sinon": "^11.1.2"
+  }
+}
